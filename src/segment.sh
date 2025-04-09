@@ -66,6 +66,9 @@ while :; do
   shift
 done
 
+# Create the output directory if necessary
+mkdir -p $2
+
 # Iterate over the directory given
 for file in $1/*.${ext}
 do
