@@ -45,11 +45,34 @@ eos="EOS,,,,,,,2\n"
 # MeCab flags
 flags="--node-format=${node} --unk-format=${unk} --eos-format=${eos}"
 
+# Default empty extension
+ext=
+
+# Options
+while :; do
+  case $1 in
+    # Extension option
+    --ext)
+      if [ "$2" ]; then
+        ext=$2
+        shift
+      else
+        die 'Error: "--ext" option requires non-empty argument.'
+      fi
+      ;;
+    *)
+      break
+  esac
+  shift
+done
+
 # Iterate over the directory given
-for file in $1/*.txt
+for file in $1/*${ext}
 do
+  # Check file exists (avoid unexpected behavior if no glob match)
+  [ -e "$file" ] || continue
   # Get the file name without the extension or path
-  noext="${file%.txt}"
+  noext="${file%${ext}}"
   basename="${noext##*/}"
   # Specify the output path
   output="$2/${basename}-segmented.csv"
