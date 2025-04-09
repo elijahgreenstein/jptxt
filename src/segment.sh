@@ -46,7 +46,7 @@ eos="EOS,,,,,,,2\n"
 flags="--node-format=${node} --unk-format=${unk} --eos-format=${eos}"
 
 # Default empty extension
-ext=
+ext=txt
 
 # Options
 while :; do
@@ -67,12 +67,12 @@ while :; do
 done
 
 # Iterate over the directory given
-for file in $1/*${ext}
+for file in $1/*.${ext}
 do
   # Check file exists (avoid unexpected behavior if no glob match)
   [ -e "$file" ] || continue
   # Get the file name without the extension or path
-  noext="${file%${ext}}"
+  noext="${file%.${ext}}"
   basename="${noext##*/}"
   # Specify the output path
   output="$2/${basename}-segmented.csv"
